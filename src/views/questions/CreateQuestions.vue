@@ -51,6 +51,7 @@ export default {
   data() {
     return {
       items: [{}],
+      surveyId: this.$route.params.surveyId,
       //question_title: "",
     };
   },
@@ -90,7 +91,9 @@ export default {
     // },
   },
   mounted() {
-    console.log(this.items);
+    //console.log(this.items);
+    //const surveyId = this.$route.params.surveyId;
+    console.log('Survey ID:', this.surveyId);
   },
 };
 </script>

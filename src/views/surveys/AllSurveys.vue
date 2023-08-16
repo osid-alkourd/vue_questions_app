@@ -44,13 +44,15 @@ export default {
 
     ...mapGetters(["getSurveys"]),
     surveys() {
+       // const router = this.$router; // Store the router reference
+
       // return this.getSurveys; // Assuming you have a getter named 'getSurveys'
       return this.getSurveys.map((survey) => ({
         survey_title: survey.survey_caption,
         created_at: survey.created_at,
         expire_at: survey.expire_at,
         status: survey.status,
-        add_question: 7,
+        survey_id:  survey.id,
         view_questions: 6,
       }));
     },
@@ -61,6 +63,10 @@ export default {
   },
   methods: {
     ...mapActions(["fetchSurveys"]),
+    // getCreateQuestionRoute(SurveyId){
+    //   return this.$router.resolve({ name: "createQuestion", params: { surveyId: SurveyId } }).href;
+
+    // }
   },
 };
 </script>
@@ -68,6 +74,6 @@ export default {
 .custom_data_table {
   margin: auto;
   margin-top: 100px;
-  width: 50%;
+ /* padding: -30px;*/
 }
 </style>

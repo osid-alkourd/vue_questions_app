@@ -17,7 +17,8 @@ const router = new VueRouter({
             component: AllSurveys
         } , 
         {
-            path: '/surveys/questions/create',
+            path: '/surveys/:surveyId/questions/create',
+            name: 'createQuestion',
             component: CreateQuestion
         },
         {
