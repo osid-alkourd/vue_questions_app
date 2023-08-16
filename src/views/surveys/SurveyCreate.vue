@@ -26,8 +26,7 @@
       />
 
       <SubmitForm @submit="createNewSurvey" />
-      <p>{{ survey_caption }}</p>
-      <p>{{ expire_at }}</p>
+   
     </v-container>
   </v-form>
 </template>
@@ -41,15 +40,15 @@ import SubmitForm from "../../components/forms/SubmitForm.vue";
 export default {
   data() {
     return {
-      item: {status:1},
+      item: {},
       select: { firstName: "osid", id: "20" },
       items: [
         { firstName: "osid", id: "20" },
         { firstName: "mohab", id: "12" },
         { firstName: "ali", id: "2" },
       ],
-      survey_caption: "",
-      expire_at: null,
+    //  survey_caption: "",
+    //  expire_at: null,
     };
   },
   components: {
@@ -76,7 +75,7 @@ export default {
     // ...mapActions(["createSurvey"]),
     createNewSurvey() {
       this.$store.dispatch("createSurvey", this.item);
-    this.item={};
+      this.item={};
     },
   },
 };

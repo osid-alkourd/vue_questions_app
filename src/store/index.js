@@ -115,7 +115,7 @@ const store = new Vuex.Store({
         commit('addSurvey', response.data);
       })).catch(error => {
         console.error('Error create data:', error);
-        throw error; // Re-throw the error to be caught by the caller
+        //throw error; // Re-throw the error to be caught by the caller
       })
     }
   },

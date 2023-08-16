@@ -11,6 +11,7 @@
             placeholder="question title"
           />
           <SelectForm
+            v-model="item.question_type"
             name="question_type"
             label="question type"
             :items="questions_types"
@@ -18,15 +19,21 @@
             itemValue="value"
           />
           <SelectForm
-            v-model="defaultAnswerOption"
+            v-model="item.answer_option"
             name="answer_option"
             label="answer option"
             :items="answer_options"
             itemText="option"
             itemValue="value"
           />
-          <InputForm type="text" name="notes" label="notes" />
-          <div v-if="index == items.length - 1" @click="addItem()">add</div>
+          <InputForm
+            type="text"
+            name="notes"
+            label="notes"
+            v-model="item.notes"
+          />
+            <IconAdd v-if="index == items.length - 1" @add="addItem()" />
+            <IconDelete v-if="items.length > 0" @delete="deleteItem(index)" />
         </v-row>
         <SubmitForm class="custom_btn" />
       </v-form>
@@ -38,6 +45,8 @@
 import InputForm from "../../components/forms/InputForm.vue";
 import SelectForm from "../../components/forms/SelectForm.vue";
 import SubmitForm from "../../components/forms/SubmitForm.vue";
+import IconAdd from "../../components/forms/IconAdd.vue";
+import IconDelete from "../../components/forms/IconDelete.vue";
 export default {
   data() {
     return {
@@ -49,13 +58,19 @@ export default {
     addItem() {
       console.log("test");
       this.items.push({});
-      console.log(this.items);
+      //console.log(this.items[1].question_title);
     },
+    deleteItem(index){
+       this.items.splice(index,1)
+    }
+    
   },
   components: {
     InputForm,
     SelectForm,
     SubmitForm,
+    IconAdd,
+    IconDelete
   },
   computed: {
     answer_options() {
@@ -65,14 +80,14 @@ export default {
       return this.$store.state.questions_types;
     },
 
-    defaultAnswerOption: {
-      get() {
-        return this.$store.state.default_answer_option;
-      },
-      set(value) {
-        this.$store.commit("changeAnswerOption", value);
-      },
-    },
+    // defaultAnswerOption: {
+    //   get() {
+    //     return this.$store.state.default_answer_option;
+    //   },
+    //   set(value) {
+    //     this.$store.commit("changeAnswerOption", value);
+    //   },
+    // },
   },
   mounted() {
     console.log(this.items);
