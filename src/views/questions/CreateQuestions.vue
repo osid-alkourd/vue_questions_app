@@ -5,14 +5,12 @@
         <v-row v-for="(item, index) in items" :key="index">
           <InputForm
             v-model="item.title"
-            :name="`questions[${index}][title]`"
             label="question title"
             type="text"
             placeholder="question title"
           />
           <SelectForm
             v-model="item.question_type"
-            :name="`questions[${index}][question_type]`"
             label="question type"
             :items="questions_types"
             itemText="type"
@@ -20,7 +18,6 @@
           />
           <SelectForm
             v-model="item.answer_option"
-            :name="`questions[${index}][answer_options]`"
             label="answer option"
             :items="answer_options"
             itemText="option"
@@ -28,15 +25,10 @@
           />
           <InputForm
             type="text"
-            :name="`questions[${index}][question_notes]`"
             label="notes"
             v-model="item.question_notes"
           />
-          <input
-            type="hidden"
-            :name="`questions[${index}][survey_id]`"
-            :v-model="(item.survey_id = surveyId)"
-          />
+
           <IconAdd v-if="index == items.length - 1" @add="addItem()" />
           <IconDelete v-if="items.length > 0" @delete="deleteItem(index)" />
         </v-row>
@@ -55,15 +47,15 @@ import IconDelete from "../../components/forms/IconDelete.vue";
 export default {
   data() {
     return {
-      items: [{}],
-      surveyId: this.$route.params.surveyId,
+      items: [],
+
       //question_title: "",
     };
   },
   methods: {
     addItem() {
       console.log("test");
-      this.items.push({});
+      this.items.push({ survey_id: this.$route.params.surveyId });
       //console.log(this.items[1].question_title);
     },
     deleteItem(index) {
@@ -100,8 +92,9 @@ export default {
   },
   mounted() {
     //console.log(this.items);
+    this.addItem();
     //const surveyId = this.$route.params.surveyId;
-    console.log("Survey ID:", this.surveyId);
+    //console.log("Survey ID:", this.surveyId);
   },
 };
 </script>
