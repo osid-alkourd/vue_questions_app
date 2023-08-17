@@ -4,15 +4,15 @@
       <v-form>
         <v-row v-for="(item, index) in items" :key="index">
           <InputForm
-            v-model="item.question_title"
-            name="title"
+            v-model="item.title"
+            :name="`questions[${index}][title]`"
             label="question title"
             type="text"
             placeholder="question title"
           />
           <SelectForm
             v-model="item.question_type"
-            name="question_type"
+            :name="`questions[${index}][question_type]`"
             label="question type"
             :items="questions_types"
             itemText="type"
@@ -20,7 +20,7 @@
           />
           <SelectForm
             v-model="item.answer_option"
-            name="answer_option"
+            :name="`questions[${index}][answer_options]`"
             label="answer option"
             :items="answer_options"
             itemText="option"
@@ -28,14 +28,19 @@
           />
           <InputForm
             type="text"
-            name="notes"
+            :name="`questions[${index}][question_notes]`"
             label="notes"
-            v-model="item.notes"
+            v-model="item.question_notes"
           />
-            <IconAdd v-if="index == items.length - 1" @add="addItem()" />
-            <IconDelete v-if="items.length > 0" @delete="deleteItem(index)" />
+          <input
+            type="hidden"
+            :name="`questions[${index}][survey_id]`"
+            :v-model="(item.survey_id = surveyId)"
+          />
+          <IconAdd v-if="index == items.length - 1" @add="addItem()" />
+          <IconDelete v-if="items.length > 0" @delete="deleteItem(index)" />
         </v-row>
-        <SubmitForm class="custom_btn" />
+        <SubmitForm class="custom_btn" @submit="addQuestion" />
       </v-form>
     </v-container>
   </div>
@@ -61,17 +66,20 @@ export default {
       this.items.push({});
       //console.log(this.items[1].question_title);
     },
-    deleteItem(index){
-       this.items.splice(index,1)
-    }
-    
+    deleteItem(index) {
+      this.items.splice(index, 1);
+    },
+    addQuestion() {
+      this.$store.dispatch("createQuestions", { questions: this.items });
+      //console.log(this.items)
+    },
   },
   components: {
     InputForm,
     SelectForm,
     SubmitForm,
     IconAdd,
-    IconDelete
+    IconDelete,
   },
   computed: {
     answer_options() {
@@ -93,7 +101,7 @@ export default {
   mounted() {
     //console.log(this.items);
     //const surveyId = this.$route.params.surveyId;
-    console.log('Survey ID:', this.surveyId);
+    console.log("Survey ID:", this.surveyId);
   },
 };
 </script>
