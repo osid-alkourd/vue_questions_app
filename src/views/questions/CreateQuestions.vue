@@ -2,36 +2,51 @@
   <div class="super_parent">
     <v-container class="parent_container">
       <v-form>
-        <v-row v-for="(item, index) in items" :key="index">
-          <InputForm
-            v-model="item.title"
-            label="question title"
-            type="text"
-            placeholder="question title"
-          />
-          <SelectForm
-            v-model="item.question_type"
-            label="question type"
-            :items="questions_types"
-            itemText="type"
-            itemValue="value"
-          />
-          <SelectForm
-            v-model="item.answer_option"
-            label="answer option"
-            :items="answer_options"
-            itemText="option"
-            itemValue="value"
-          />
-          <InputForm
-            type="text"
-            label="notes"
-            v-model="item.question_notes"
-          />
+        <v-container fluid v-for="(item, index) in items" :key="index">
+          <v-row>
+            <InputForm
+              v-model="item.title"
+              label="question title"
+              type="text"
+              placeholder="question title"
+            />
+            <SelectForm
+              v-model="item.question_type"
+              label="question type"
+              :items="questions_types"
+              itemText="type"
+              itemValue="value"
+              @change="addQuestionDetail(item)"
+            />
+            <SelectForm
+              v-model="item.answer_option"
+              label="answer option"
+              :items="answer_options"
+              itemText="option"
+              itemValue="value"
+            />
+            <InputForm
+              type="text"
+              label="notes"
+              v-model="item.question_notes"
+            />
 
-          <IconAdd v-if="index == items.length - 1" @add="addItem()" />
-          <IconDelete v-if="items.length > 0" @delete="deleteItem(index)" />
-        </v-row>
+            <IconAdd v-if="index == items.length - 1" @add="addItem()" />
+            <IconDelete v-if="items.length > 0" @delete="deleteItem(index)" />
+          </v-row>
+          <v-container v-if="![1, 5].includes(item.question_type)">
+            <v-row v-for="(detail, index1) in item.details" :key="index1">
+              <InputForm
+                v-model="detail.answer_option"
+                label="enter asnwer option"
+              />
+              <IconAdd
+                v-if="index1 == item.details.length - 1"
+                @add="addQuestionDetail(item)"
+              />
+            </v-row>
+          </v-container>
+        </v-container>
         <SubmitForm class="custom_btn" @submit="addQuestion" />
       </v-form>
     </v-container>
@@ -48,14 +63,15 @@ export default {
   data() {
     return {
       items: [],
+      question_details: [],
 
       //question_title: "",
     };
   },
   methods: {
     addItem() {
-      console.log("test");
-      this.items.push({ survey_id: this.$route.params.surveyId });
+      //console.log("test");
+      this.items.push({ survey_id: this.$route.params.surveyId, details: [] });
       //console.log(this.items[1].question_title);
     },
     deleteItem(index) {
@@ -64,6 +80,11 @@ export default {
     addQuestion() {
       this.$store.dispatch("createQuestions", { questions: this.items });
       //console.log(this.items)
+    },
+    addQuestionDetail(item) {
+      if (![1, 5].includes(item.question_type)) {
+        item.details.push({});
+      }
     },
   },
   components: {
@@ -95,6 +116,8 @@ export default {
     this.addItem();
     //const surveyId = this.$route.params.surveyId;
     //console.log("Survey ID:", this.surveyId);
+    // this.addQuestionDetail();
+    //console.log("my name is osid0");
   },
 };
 </script>

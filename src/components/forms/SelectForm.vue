@@ -1,5 +1,5 @@
 <template>
-  <v-col class="child_element" cols="6" sm="2">
+  <v-col class="child_element" cols="12" sm="6" md="2">
     <v-select
       :hint="hint"
       :items="items"
@@ -24,6 +24,7 @@ export default {
   //     this.$emit("input", newValue); // Emit input event to update parent
   //   },
   // },
+
 };
 </script>
 

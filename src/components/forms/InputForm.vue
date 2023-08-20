@@ -1,5 +1,5 @@
 <template>
-  <v-col class="child_element" cols="6" sm="2">
+  <v-col class="child_element" cols="12" sm="6" md="2">
     <v-text-field
       :value="value"
       @input="updateValue"
