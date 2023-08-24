@@ -41,12 +41,12 @@ export default {
   data() {
     return {
       item: {},
-      select: { firstName: "osid", id: "20" },
-      items: [
-        { firstName: "osid", id: "20" },
-        { firstName: "mohab", id: "12" },
-        { firstName: "ali", id: "2" },
-      ],
+      // select: { firstName: "osid", id: "20" },
+      // items: [
+      //   { firstName: "osid", id: "20" },
+      //   { firstName: "mohab", id: "12" },
+      //   { firstName: "ali", id: "2" },
+      // ],
     //  survey_caption: "",
     //  expire_at: null,
     };

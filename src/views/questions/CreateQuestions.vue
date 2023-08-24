@@ -1,7 +1,9 @@
 <template>
   <div class="super_parent">
     <v-container class="parent_container">
-      <v-form>
+          <h1>{{survey_title}}</h1>
+
+      <v-form id="first_form">
         <v-container fluid v-for="(item, index) in items" :key="index">
           <v-row>
             <InputForm
@@ -32,7 +34,7 @@
             />
 
             <IconAdd v-if="index == items.length - 1" @add="addItem()" />
-            <IconDelete v-if="items.length > 0" @delete="deleteItem(index)" />
+            <IconDelete v-if="items.length > 0" @delete="deleteItem(index,item.id)" />
           </v-row>
           <v-container v-if="![1, 5].includes(item.question_type)">
             <v-row v-for="(detail, index1) in item.details" :key="index1">
@@ -43,6 +45,10 @@
               <IconAdd
                 v-if="index1 == item.details.length - 1"
                 @add="addQuestionDetail(item)"
+              />
+              <IconDelete
+                v-if="item.details.length > 0"
+                @delete="deleteDetail(item.details, index1 , detail.id)"
               />
             </v-row>
           </v-container>
@@ -59,11 +65,13 @@ import SelectForm from "../../components/forms/SelectForm.vue";
 import SubmitForm from "../../components/forms/SubmitForm.vue";
 import IconAdd from "../../components/forms/IconAdd.vue";
 import IconDelete from "../../components/forms/IconDelete.vue";
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
       items: [],
-      question_details: [],
+      //question_details: [],
 
       //question_title: "",
     };
@@ -71,11 +79,17 @@ export default {
   methods: {
     addItem() {
       //console.log("test");
-      this.items.push({ survey_id: this.$route.params.surveyId, details: [] });
+
+      this.items.push({
+        survey_id: this.$route.params.surveyId,
+        details: [],
+      });
+
       //console.log(this.items[1].question_title);
     },
-    deleteItem(index) {
+    deleteItem(index , id) {
       this.items.splice(index, 1);
+      this.$store.dispatch('deleteQuestion' , id)
     },
     addQuestion() {
       this.$store.dispatch("createQuestions", { questions: this.items });
@@ -86,6 +100,17 @@ export default {
         item.details.push({});
       }
     },
+    deleteDetail(details, index , id) {
+      details.splice(index, 1);
+     this.$store.dispatch('deleteSingleDetail' , id);
+    },
+    viewQuestions() {
+      this.$store.dispatch("viewSurveyQuestions", this.$route.params.surveyId);
+    },
+    showSurvey(){
+      this.$store.dispatch('showSurvey', this.$route.params.surveyId)
+    },
+    
   },
   components: {
     InputForm,
@@ -101,6 +126,10 @@ export default {
     questions_types() {
       return this.$store.state.questions_types;
     },
+    survey_title(){
+      return this.$store.state.survey_title;
+    },
+    ...mapGetters(["getSurveyQuestion" , "getSingleSurvey"]),
 
     // defaultAnswerOption: {
     //   get() {
@@ -111,14 +140,43 @@ export default {
     //   },
     // },
   },
-  mounted() {
+  created() {
     //console.log(this.items);
-    this.addItem();
+
+    // this.addItem();
+
     //const surveyId = this.$route.params.surveyId;
     //console.log("Survey ID:", this.surveyId);
     // this.addQuestionDetail();
     //console.log("my name is osid0");
+    //document.getElementById('first_form').style.display = 'none';
+    // this.viewQuestions();
+    // this.$watch(
+    //   () => this.getSurveyQuestion,
+    //   (newValue) => {
+    //     if (newValue.length === 0  && this.items.length === 0) {
+    //       this.addItem();
+    //     } else {
+    //       this.items = newValue;
+    //     }
+    //   }
+    // );
+     this.showSurvey();
+    this.$watch(
+      () => this.getSingleSurvey,
+      (newValue) => {
+        if (newValue.length === 0  && this.items.length === 0) {
+          this.addItem();
+        } else {
+          this.items = newValue;
+        }
+      }
+    );
+    
   },
+  // beforeCreate(){
+  //      this.$store.dispatch('viewSurveyQuestions', this.$route.params.surveyId);
+  // }
 };
 </script>
 
