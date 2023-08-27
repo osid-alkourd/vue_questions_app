@@ -46,14 +46,13 @@ export default {
     surveys() {
        // const router = this.$router; // Store the router reference
 
-      // return this.getSurveys; // Assuming you have a getter named 'getSurveys'
       return this.getSurveys.map((survey) => ({
         survey_title: survey.survey_caption,
         created_at: survey.created_at,
         expire_at: survey.expire_at,
         status: survey.status,
         survey_id:  survey.id,
-        view_questions: 6,
+        view_questions: survey.id
       }));
     },
   },

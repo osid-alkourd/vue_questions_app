@@ -32,6 +32,7 @@
               label="notes"
               v-model="item.question_notes"
             />
+            
 
             <IconAdd v-if="index == items.length - 1" @add="addItem()" />
             <IconDelete v-if="items.length > 0" @delete="deleteItem(index,item.id)" />

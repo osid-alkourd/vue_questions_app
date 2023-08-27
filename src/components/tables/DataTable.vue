@@ -18,6 +18,11 @@
           >add question</v-btn
         >
       </template>
+       <template v-slot:[`item.view_questions`]="{ item }">
+        <v-btn x-small :to="`/surveys/${item.survey_id}/questions`"
+          >view question</v-btn
+        >
+      </template>
     </v-data-table>
   </v-card>
 </template>

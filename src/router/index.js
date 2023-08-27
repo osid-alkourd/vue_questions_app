@@ -22,9 +22,10 @@ const router = new VueRouter({
             component: CreateQuestion
         },
         {
-            path: '/surveys/questions',
+            path: '/surveys/:surveyId/questions',
             component: AllQuestions
         }
+       
 
     ]
 })

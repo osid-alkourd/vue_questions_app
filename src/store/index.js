@@ -160,6 +160,8 @@ const store = new Vuex.Store({
         if (response.status == 201) {
           commit('addQuestions', response.data)
           alert('Questions created successfully!');
+        } else {
+           console.log(response.data) ;
         }
 
       }).catch(error => {

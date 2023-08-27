@@ -1,48 +1,22 @@
 <template>
-  <DataTable
-    :data="questions"
-    :headers="headers"
-    :search.sync="search"
-  />
+  <v-form>
+    <v-container fluid>
+      <RadioButton question_text="Your favourite search engine" />
+      <SingleSelectForm/>
+    </v-container>
+  </v-form>
 </template>
-
-
 <script>
-import DataTable from "../../components/tables/DataTable.vue";
+import RadioButton from "../../components/forms/RadioButton.vue";
+import SingleSelectForm from "../../components/forms/SingleSelectForm.vue"
 export default {
-  components: {
-    DataTable,
+  components: { RadioButton,SingleSelectForm },
+  data:()=> {
+    return{
+
+    }
   },
-  data() {
-    return {
-      questions: [
-        {
-          question_id: "osid",
-          question_serial: 159,
-          title: 6.0,
-          type: 24,
-          notes: 4.0,
-          add_details: 1,
-          delete: 1,
-          update: 1,
-          view_details: 2
-        },
-      ],
-    };
-  },
-  computed: {
-    headers() {
-      return this.$store.state.questionTableHeaders;
-    },
-    search: {
-      get() {
-        return this.$store.state.searchQuestionValue;
-      },
-      set(value) {
-        this.$store.commit("updateSearchQuestionValue", value);
-      },
-    },
-  },
+  computed: {},
 };
 </script>
 
