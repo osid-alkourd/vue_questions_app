@@ -1,18 +1,19 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios';
-const baseURL = 'http://127.0.0.1:8000/api';
-function makeApiRequest(method, url, data, token) {
-  return axios({
-    method,
-    url: baseURL + url,
-    data,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  });
-}
+//import axios from 'axios';
+import {axiosInstance as axios} from '../utl/axios'
+// const baseURL = 'http://127.0.0.1:8000/api';
+// function makeApiRequest(method, url, data, token) {
+//   return axios({
+//     method,
+//     url: baseURL + url,
+//     data,
+//     headers: {
+//       'Content-Type': 'application/json',
+//       Authorization: `Bearer ${token}`,
+//     },
+//   });
+// }
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -120,8 +121,8 @@ const store = new Vuex.Store({
 
   actions: {
    
-    fetchSurveys({ commit, state }) {
-      return makeApiRequest('get', '/surveys', null, state.token)
+    fetchSurveys({ commit }) {
+      return axios.get('/surveys')
         .then(response => {
           commit('set_surveys', response.data);
           console.log(response.status);
@@ -142,8 +143,8 @@ const store = new Vuex.Store({
     //     //throw error; // Re-throw the error to be caught by the caller
     //   })
     // },
-    createSurvey({ commit, state }, surveyRequestData){
-         return makeApiRequest('post' , '/surveys' , surveyRequestData , state.token)
+    createSurvey({ commit}, surveyRequestData){
+         return axios.post('/surveys' , surveyRequestData)
          .then((response => {
               commit('addSurvey', response.data);
               console.log(response.status);
@@ -169,8 +170,8 @@ const store = new Vuex.Store({
       })
     },
     
-    viewSurveyQuestions({ commit, state }, id) {
-      return makeApiRequest('get', `/surveys/${id}/showQuestions`, null, state.token)
+    viewSurveyQuestions({ commit}, id) {
+      return axios.get(`/surveys/${id}/showQuestions`)
         .then(response => {
           if (response.status == 200) {
             commit('set_questions', response.data)
@@ -180,8 +181,8 @@ const store = new Vuex.Store({
           console.error('Error in view data:', error);
         })
     },
-    deleteSingleDetail({state}, id){
-      return makeApiRequest('delete' , `/details/question/${id}` , null , state.token)
+    deleteSingleDetail({}, id){
+      return axios.delete(`/details/question/${id}`)
           .then((response => {
                  if(response.status == 200){
                     alert('success delete');
@@ -191,8 +192,8 @@ const store = new Vuex.Store({
     }))
     },
     
-    showSurvey({state , commit} , id){
-      return makeApiRequest('get' , `/surveys/${id}`, null , state.token)
+    showSurvey({commit} , id){
+      return axios.get(`/surveys/${id}`)
              .then((response => {
               if(response.status == 200){
                 commit('set_single_survey' , response.data.questions)
@@ -205,9 +206,9 @@ const store = new Vuex.Store({
               console.error('Error in display surveys:', error);
              }))
     } , 
-    async deleteQuestion({state} , id){
+    async deleteQuestion( {} ,id){
        try{
-          const response = await makeApiRequest('delete' , `/questions/${id}` , null , state.token);
+          const response = await axios.delete(`/questions/${id}`);
            if(response.status == 200){
               alert('success delete');
            }

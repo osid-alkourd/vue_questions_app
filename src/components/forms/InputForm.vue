@@ -1,5 +1,6 @@
 <template>
   <v-col class="child_element" cols="12" sm="6" md="2">
+    {{question_text}}
     <v-text-field
       :value="value"
       @input="updateValue"
@@ -14,7 +15,7 @@
 
 <script>
 export default {
-  props: ["label", "placeholder", "name", "type", "value"],
+  props: ["label", "placeholder", "name", "type", "value", 'question_text'],
   //emits: ["update:modelValue"],
   methods: {
     updateValue(newValue) {

@@ -1,35 +1,31 @@
 <template>
-    <v-row align="center"  justify="center">
-         <v-col
-          cols="12"
-          md="6"
-        >
-    <v-radio-group>
+    <v-radio-group v-model="answer_text">
       <template v-slot:label>
         <div>{{question_text}}</div>
       </template>
-      <v-radio value="Google">
+      <v-radio  v-for="detail in details" :key="detail.id" :value="detail.answer_option">
         <template v-slot:label>
           <div>
-            Of course it's <strong class="success--text">Google</strong>
-          </div>
-        </template>
-      </v-radio>
-      <v-radio value="Duckduckgo">
-        <template v-slot:label>
-          <div>
-            Definitely <strong class="primary--text">Duckduckgo</strong>
+            {{detail.answer_option}}
           </div>
         </template>
       </v-radio>
     </v-radio-group>
-    </v-col>
-    </v-row>
+  
 </template>
 
 <script>
 export default {
-    props: ['question_text']
+   data: () => {
+    return {
+      answer_text: ''
+    };
+  },
+    props: ['question_text' , 'details'],
+  
+  created() {
+    console.log(this.details.length)
+  }
 };
 </script>
 

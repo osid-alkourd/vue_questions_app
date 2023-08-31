@@ -74,6 +74,7 @@ export default {
       items: [],
       //question_details: [],
 
+
       //question_title: "",
     };
   },

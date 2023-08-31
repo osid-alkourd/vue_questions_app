@@ -1,18 +1,14 @@
 <template>
-<v-row align="center"  justify="center">
-     <v-col
-          cols="12"
-          md="6"
-          xl="4"
-        >
+
      <v-select
-            :items="items"
+            :items="details"
             chips
+            item-text="answer_option"
+            item-value="id"
             label="Chips"
             solo
           ></v-select>
-    </v-col>
-</v-row>
+    
 </template>
 
 <script>
@@ -20,6 +16,7 @@ export default {
     data: () => ({
       items: ['foo', 'bar', 'fizz', 'buzz'],
     }),
+    props: ['details']
 };
 </script>
 
